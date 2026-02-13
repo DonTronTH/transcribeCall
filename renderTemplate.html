@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{TITLE}}</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 24px;
+        line-height: 1.4;
+      }
+      .header {
+        margin-bottom: 18px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #ddd;
+      }
+      .header h1 {
+        font-size: 20px;
+        margin: 0 0 6px 0;
+      }
+      .header .meta {
+        color: #444;
+        font-size: 13px;
+      }
+      .section {
+        border: 1px solid #bbb;
+        border-radius: 6px;
+        padding: 12px;
+        margin: 14px 0;
+      }
+      .section-title-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .section-title {
+        font-weight: 700;
+        font-size: 14px;
+        margin: 0;
+      }
+      .copy-btn {
+        font-size: 12px;
+        padding: 6px 10px;
+        cursor: pointer;
+      }
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        margin: 0;
+        font-family: inherit;
+      }
+      .note {
+        color: #666;
+        font-size: 12px;
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>{{HEADER_LINE}}</h1>
+      <div class="meta">{{DATETIME_LINE}}</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title-row">
+        <div class="section-title">Kort referat</div>
+        <button class="copy-btn" onclick="copyText('summaryText')">Copy</button>
+      </div>
+      <pre id="summaryText">{{SUMMARY_TEXT}}</pre>
+    </div>
+
+    <div class="section">
+      <div class="section-title-row">
+        <div class="section-title">Forbedringer til mødebooker</div>
+        <button class="copy-btn" onclick="copyText('coachingText')">Copy</button>
+      </div>
+      <pre id="coachingText">{{COACHING_TEXT}}</pre>
+    </div>
+
+    <div class="section">
+      <div class="section-title-row">
+        <div class="section-title">Fuld transskription</div>
+        <button class="copy-btn" onclick="copyText('transcriptText')">Copy</button>
+      </div>
+      <pre id="transcriptText">{{TRANSCRIPT_TEXT}}</pre>
+      <div class="note">Tip: Hvis der er navne der skal staves korrekt, udvid prompt-listen i transcribe-scriptet.</div>
+    </div>
+
+    <script>
+      async function copyText(id) {
+        const el = document.getElementById(id);
+        const text = el ? el.innerText : "";
+        try {
+          await navigator.clipboard.writeText(text);
+          alert("Copied");
+        } catch (e) {
+          // Fallback if clipboard is blocked
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          alert("Copied");
+        }
+      }
+    </script>
+  </body>
+</html>

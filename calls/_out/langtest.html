@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>langtest</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 24px;
+        line-height: 1.4;
+      }
+      .header {
+        margin-bottom: 18px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #ddd;
+      }
+      .header h1 {
+        font-size: 20px;
+        margin: 0 0 6px 0;
+      }
+      .header .meta {
+        color: #444;
+        font-size: 13px;
+      }
+      .section {
+        border: 1px solid #bbb;
+        border-radius: 6px;
+        padding: 12px;
+        margin: 14px 0;
+      }
+      .section-title-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .section-title {
+        font-weight: 700;
+        font-size: 14px;
+        margin: 0;
+      }
+      .copy-btn {
+        font-size: 12px;
+        padding: 6px 10px;
+        cursor: pointer;
+      }
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        margin: 0;
+        font-family: inherit;
+      }
+      .note {
+        color: #666;
+        font-size: 12px;
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Phone call between Carsten Düring (E-Bureauet ApS) and Torben Rudgaard (BR - Børns Ragelse)</h1>
+      <div class="meta">Date/time: 2026-02-12 15:32</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title-row">
+        <div class="section-title">Kort referat</div>
+        <button class="copy-btn" onclick="copyText('summaryText')">Copy</button>
+      </div>
+      <pre id="summaryText">Opkald meta: Fra Carsten Düring (E-Bureauet ApS) til Torben Rudgaard (BR - Børns Ragelse). Tid: 2026-02-12 15:32. Varighed: 14 minutter.
+
+I samtalen præsenterede Carsten Düring fra E-Bureauet ApS muligheden for at anvende deres udviklere fra Filippinerne til automatisering i Torben Rudgaards virksomhed. Carsten fremhævede, at udviklerne er dygtige og omkostningseffektive, idet deres priser er en fjerdedel af danske udvikleres. Torben viste interesse, men der blev ikke nævnt specifikke behov eller indvendinger. Beslutninger blev ikke truffet under opkaldet, men næste skridt kunne være at drøfte konkrete projekter og behov for automatisering.</pre>
+    </div>
+
+    <div class="section">
+      <div class="section-title-row">
+        <div class="section-title">Forbedringer til mødebooker</div>
+        <button class="copy-btn" onclick="copyText('coachingText')">Copy</button>
+      </div>
+      <pre id="coachingText">1. **Introduktion**: Start med en klar og professionel introduktion. Sig &quot;Goddag, Torben Rudgaard fra E-Bureauet ApS. Jeg ringer for at drøfte, hvordan vores udviklere kan hjælpe med automatisering i din virksomhed.&quot;
+
+2. **Fokus på værdi**: Undgå at nævne prisen først. Fokuser i stedet på, hvordan automatisering kan løse specifikke problemer for BR - Børns Ragelse. For eksempel: &quot;Vi har erfaring med at optimere processer, der kan spare tid og ressourcer i din virksomhed.&quot;
+
+3. **Undgå negative sammenligninger**: Udelad udsagn som &quot;de koster kun en fjerdedel af, hvad en dansk udvikler koster.&quot; Det kan virke nedladende. Fokuser på kvaliteten af arbejdet: &quot;Vores udviklere har en solid erfaring med automatisering og leverer høj kvalitet.&quot;
+
+4. **Engagering**: Stil åbne spørgsmål for at engagere Torben. For eksempel: &quot;Hvilke udfordringer står I overfor i jeres nuværende processer, hvor automatisering kunne være en løsning?&quot;
+
+5. **Afslutning med klar handling**: Afslut opkaldet med en konkret handling. For eksempel: &quot;Kan vi aftale et møde, hvor vi kan gennemgå, hvordan vi konkret kan hjælpe jer? Hvornår passer det dig bedst?&quot;</pre>
+    </div>
+
+    <div class="section">
+      <div class="section-title-row">
+        <div class="section-title">Fuld transskription</div>
+        <button class="copy-btn" onclick="copyText('transcriptText')">Copy</button>
+      </div>
+      <pre id="transcriptText">En, to, tre, fire. Ja, goddag, du taler med Torben Rudgaard fra firmaet E-Bureauet ApS. Vi har en afdeling her i Filippinerne, og vi vil gerne se, om du kunne bruge nogle af vores udviklere til at lave automatisering for din virksomhed. Vi har meget dygtige udviklere, de koster kun en fjerdedel af, hvad en dansk udvikler koster, og de arbejder længere og laver mere. Og så må vi jo se, hvad ChatGBT siger til at oversætte den her til dansk.</pre>
+      <div class="note">Tip: Hvis der er navne der skal staves korrekt, udvid prompt-listen i transcribe-scriptet.</div>
+    </div>
+
+    <script>
+      async function copyText(id) {
+        const el = document.getElementById(id);
+        const text = el ? el.innerText : "";
+        try {
+          await navigator.clipboard.writeText(text);
+          alert("Copied");
+        } catch (e) {
+          // Fallback if clipboard is blocked
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          alert("Copied");
+        }
+      }
+    </script>
+  </body>
+</html>

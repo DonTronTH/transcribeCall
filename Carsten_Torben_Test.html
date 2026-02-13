@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Call Transcript</title>
+    <style>
+      :root {
+        --bg: #f6f7fb;
+        --card: #ffffff;
+        --text: #111827;
+        --muted: #6b7280;
+        --line: #e5e7eb;
+
+        --pill-red-bg: #fde8e8;
+        --pill-red-text: #b91c1c;
+
+        --pill-green-bg: #e9f9ef;
+        --pill-green-text: #15803d;
+
+        --bubble: #ffffff;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      .wrap {
+        max-width: 980px;
+        margin: 28px auto;
+        padding: 0 16px;
+      }
+
+      .chat {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(17, 24, 39, 0.06);
+      }
+
+      .row {
+        display: flex;
+        gap: 14px;
+        padding: 18px 18px;
+        border-top: 1px solid var(--line);
+        align-items: flex-start;
+        background: var(--bubble);
+      }
+      .row:first-child { border-top: 0; }
+
+      .pill {
+        flex: 0 0 auto;
+        height: 26px;
+        display: inline-flex;
+        align-items: center;
+        padding: 0 12px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1;
+        white-space: nowrap;
+      }
+      .pill.red { background: var(--pill-red-bg); color: var(--pill-red-text); }
+      .pill.green { background: var(--pill-green-bg); color: var(--pill-green-text); }
+
+      .msg {
+        flex: 1 1 auto;
+        font-size: 15px;
+        line-height: 1.45;
+        color: var(--text);
+        padding-top: 2px;
+      }
+
+      .meta {
+        font-size: 12px;
+        color: var(--muted);
+        padding: 12px 18px;
+        border-top: 1px solid var(--line);
+        background: #fbfbfd;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <div class="chat">
+        <!-- Names are intentionally swapped (as requested) -->
+
+        <div class="row">
+          <div class="pill red">Torben Rudgaard</div>
+          <div class="msg">Torben Rudgaard, E-Bureauet Philippines.</div>
+        </div>
+
+        <div class="row">
+          <div class="pill green">Carsten Düring</div>
+          <div class="msg">Det er Carsten.</div>
+        </div>
+
+        <div class="row">
+          <div class="pill red">Torben Rudgaard</div>
+          <div class="msg">Hvordan har de det?</div>
+        </div>
+
+        <div class="row">
+          <div class="pill green">Carsten Düring</div>
+          <div class="msg">Altså, jeg køber ikke noget af det, du sælger. Det kan du godt glemme. Overhovedet ikke køb noget.</div>
+        </div>
+
+        <div class="row">
+          <div class="pill red">Torben Rudgaard</div>
+          <div class="msg">Vi er langt foran konkurrenterne. Vi kan lave ting på 4ds. Blablabla.</div>
+        </div>
+
+        <div class="row">
+          <div class="pill red">Torben Rudgaard</div>
+          <div class="msg">Hvordan er kvaliteten i din ende?</div>
+        </div>
+
+        <div class="row">
+          <div class="pill green">Carsten Düring</div>
+          <div class="msg">Den synes jeg faktisk er lidt grøn, men over at den er 90%.</div>
+        </div>
+
+        <div class="row">
+          <div class="pill red">Torben Rudgaard</div>
+          <div class="msg">Det er den også i min ende. Jeg ringer helt fra Filippinerne af, og det skal vi jo ikke gøre. Vi skal ringe fra Spanien.</div>
+        </div>
+
+        <div class="row">
+          <div class="pill green">Carsten Düring</div>
+          <div class="msg">Ja, og det er sgu meget godt, den ringer fra filipinerne på så højt niveau.</div>
+        </div>
+
+        <div class="row">
+          <div class="pill red">Torben Rudgaard</div>
+          <div class="msg">Ja, det synes jeg også. Jeg synes, der er utrolig god klang på, og der er meget lidt støj.</div>
+        </div>
+
+        <div class="row">
+          <div class="pill red">Torben Rudgaard</div>
+          <div class="msg">Det sjove var med din voicebesked. Hende der, der siger, at voicebeskedet er lægvendigst end beskedet efter tone.</div>
+        </div>
+
+        <div class="row">
+          <div class="pill green">Carsten Düring</div>
+          <div class="msg">Ja.</div>
+        </div>
+
+        <div class="row">
+          <div class="pill red">Torben Rudgaard</div>
+          <div class="msg">Jeg kunne næsten ikke høre det, men alligevel så tog ChatGVT sku fat i det, og fik det skrevet ordentligt ned. Så det var jeg meget imponeret over.</div>
+        </div>
+
+        <div class="row">
+          <div class="pill green">Carsten Düring</div>
+          <div class="msg">Du kunne ikke høre det, og så alligevel gør det godt igennem.</div>
+        </div>
+
+        <div class="row">
+          <div class="pill red">Torben Rudgaard</div>
+          <div class="msg">Ja, ja, så kunne ChatGVT godt fortolke det. Men utroligt, at telefonselskaberne stadig bruger analog til sådan noget, hva'?</div>
+        </div>
+
+        <div class="row">
+          <div class="pill red">Torben Rudgaard</div>
+          <div class="msg">Skal glemme at tro, at jeg har skiftet til digital. Men jeg prøver lige at transcribe den samtale, vi har her, og så må vi se, hvad den siger.</div>
+        </div>
+
+        <div class="row">
+          <div class="pill green">Carsten Düring</div>
+          <div class="msg">Ja, det er det nu.</div>
+        </div>
+
+        <div class="row">
+          <div class="pill green">Carsten Düring</div>
+          <div class="msg">Ja, okay, så køber jeg det måske alligevel. Det er godt.</div>
+        </div>
+
+        <div class="row">
+          <div class="pill red">Torben Rudgaard</div>
+          <div class="msg">Ja, det var godt, Carsten. Det var godt. Ja, vi snakkes ved. Hej.</div>
+        </div>
+
+        <div class="row">
+          <div class="pill green">Carsten Düring</div>
+          <div class="msg">Ja, hej.</div>
+        </div>
+
+      </div>
+    </div>
+  </body>
+</html>
