@@ -1,20 +1,16 @@
-Carsten Düring: Torben Rudgaard, E-Bureauet Philippines.
-Torben Rudgaard: Det er Carsten.
-Carsten Düring: Hvordan har de det?
-Torben Rudgaard: Altså, jeg køber ikke noget af det, du sælger. Det kan du godt glemme. Overhovedet ikke køb noget.
-Carsten Düring: Vi er langt foran konkurrenterne. Vi kan lave ting på 4ds. Blablabla.
-Carsten Düring: Hvordan er kvaliteten i din ende?
-Torben Rudgaard: Den synes jeg faktisk er lidt grøn, men over at den er 90%.
-Carsten Düring: Det er den også i min ende. Jeg ringer helt fra Filippinerne af, og det skal vi jo ikke gøre. Vi skal ringe fra Spanien.
-Torben Rudgaard: Ja, og det er sgu meget godt, den ringer fra filipinerne på så højt niveau.
-Carsten Düring: Ja, det synes jeg også. Jeg synes, der er utrolig god klang på, og der er meget lidt støj.
-Carsten Düring: Det sjove var med din voicebesked. Hende der, der siger, at voicebeskedet er lægvendigst end beskedet efter tone.
-Torben Rudgaard: Ja.
-Carsten Düring: Jeg kunne næsten ikke høre det, men alligevel så tog ChatGVT sku fat i det, og fik det skrevet ordentligt ned. Så det var jeg meget imponeret over.
-Torben Rudgaard: Du kunne ikke høre det, og så alligevel gør det godt igennem.
-Carsten Düring: Ja, ja, så kunne ChatGVT godt fortolke det. Men utroligt, at telefonselskaberne stadig bruger analog til sådan noget, hva'?
-Carsten Düring: Skal glemme at tro, at jeg har skiftet til digital. Men jeg prøver lige at transcribe den samtale, vi har her, og så må vi se, hvad den siger.
-Torben Rudgaard: Ja, det er det nu.
-Torben Rudgaard: Ja, okay, så køber jeg det måske alligevel. Det er godt.
-Carsten Düring: Ja, det var godt, Carsten. Det var godt. Ja, vi snakkes ved. Hej.
-Torben Rudgaard: Janis, hej.
+Speaker 1: Torben Rudgaard, E-Bureauet Philippines.
+Speaker 2: Det er Carsten.
+Speaker 2: Altså, jeg køber ikke noget af det, du sælger. Det kan du godt glemme. Overhovedet ikke køb noget.
+Speaker 1: Hvordan er kvaliteten i din ende?
+Speaker 2: Den synes jeg faktisk er lidt grøn, men over at den er 90%.
+Speaker 1: Jeg ringer helt fra Philippinerne af, og det skal vi jo normalt ikke gøre. Vi skal jo ringe fra Spanien.
+Speaker 2: Ja, og det er sgu meget godt, den ringer fra filipinerne på så højt niveau.
+Speaker 1: Jeg synes, der er utrolig god klang på, og der er meget lidt støj. Det sjove var med din voicebesked. Hende der, der siger, at voicebeskedet ligger vennligst i en besked efter tone.
+Speaker 2: Ja.
+Speaker 1: Det var så utydeligt, at jeg næsten ikke kunne høre det, men alligevel så tog ChatGVT skue fat i det, og fik det skrevet ordentligt ned. Så det var jeg meget imponeret over.
+Speaker 1: Ja, så kunne ChatGVT godt fortolke det. Men utrolig, at telefonselskaberne stadigvæk bruger analog til sådan noget, hva'? Det skulle kæmpe utroligt have skiftet til digital.
+Speaker 2: Du kunne ikke høre det, og så alligevel gør det godt igennem.
+Speaker 2: Ja, det er det nu.
+Speaker 1: Jeg prøver lige at transcribe den samtale, vi har her, og så må vi se, hvad den siger. Ja, det var godt, Carsten. Vi snakkes ved. Hej.
+Speaker 2: Ja, okay, så køber jeg det måske alligevel. Det er godt.
+Speaker 2: Janis, hej.

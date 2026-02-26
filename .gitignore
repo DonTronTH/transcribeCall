@@ -1,3 +1,10 @@
 node_modules/
 .env
 
+# generated call artifacts / recordings
+# calls/*.wav
+# calls/_out/
+# calls/_out/_tmp/
+
+# build output
+public/dist/

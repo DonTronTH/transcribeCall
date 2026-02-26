@@ -57,7 +57,54 @@
         margin-top: 8px;
       }
     </style>
-  </head>
+  <style>
+/* CHAT_STYLES */
+
+/* Keep transcript area readable and not stretched across the whole screen */
+.chat {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+  max-width: 1100px;
+}
+
+/* One row: [badge][bubble] always left aligned */
+.msg {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+/* Pills */
+.badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+/* Colors like your Image 1 */
+.badge-caller { background: #ffd6d6; color: #7a1c1c; }
+.badge-receiver { background: #d8ffe6; color: #1f6b3a; }
+.badge-other { background: #f1f1f1; color: #333; }
+
+/* Bubble next to badge */
+.bubble {
+  background: #f3f3f3;
+  border-radius: 14px;
+  padding: 10px 14px;
+  line-height: 1.35;
+  flex: 1 1 auto;
+  max-width: 900px;
+}
+
+/* Optional: slightly soften */
+.bubble { box-shadow: 0 0 0 0 rgba(0,0,0,0); }
+</style>
+</head>
   <body>
     <div class="header">
       <h1>Phone call between Carsten Düring (E-Bureauet ApS) and Torben Rudgaard (BR - Børns Ragelse)</h1>
@@ -95,7 +142,7 @@ I samtalen præsenterede Carsten Düring fra E-Bureauet ApS muligheden for at an
         <div class="section-title">Fuld transskription</div>
         <button class="copy-btn" onclick="copyText('transcriptText')">Copy</button>
       </div>
-      <pre id="transcriptText">En, to, tre, fire. Ja, goddag, du taler med Torben Rudgaard fra firmaet E-Bureauet ApS. Vi har en afdeling her i Filippinerne, og vi vil gerne se, om du kunne bruge nogle af vores udviklere til at lave automatisering for din virksomhed. Vi har meget dygtige udviklere, de koster kun en fjerdedel af, hvad en dansk udvikler koster, og de arbejder længere og laver mere. Og så må vi jo se, hvad ChatGBT siger til at oversætte den her til dansk.</pre>
+      <pre id="transcriptText"></pre>
       <div class="note">Tip: Hvis der er navne der skal staves korrekt, udvid prompt-listen i transcribe-scriptet.</div>
     </div>
 

@@ -1,0 +1,33 @@
+{
+  "caller": {
+    "name_id": "????????",
+    "name": "Torben Rudgaard",
+    "company_id": "????????",
+    "company": "E-Bureauet Philippines",
+    "phoneno": "123456789"
+  },
+  "receiver": {
+    "name_id": "????????",
+    "name": "Carsten Düring",
+    "company_id": "????????",
+    "company": "E-Bureauet ApS",
+    "phoneno": "123456789"
+  },
+  "channel_0_role": "caller",
+  "channel_1_role": "receiver",
+  "call_datetime": "2026-02-12 15:32:05",
+  "call_minutes": "00:14:58",
+  "call_file": "https://www.twilio.com/console/voice/api/recordings/recording-logs/RE7504da6e1e6c480bd9bdc2ba06326f2b/download/wav?__override_layout__=embed&bifrost=true&x-target-region=us1",
+  "from_name_id": "????????",
+  "from_name": "Torben Rudgaard",
+  "from_company_id": "????????",
+  "from_company": "E-Bureauet Philippines",
+  "from_phoneno": "123456789",
+  "to_name_id": "????????",
+  "to_name": "Carsten Düring",
+  "to_company_id": "????????",
+  "to_company": "E-Bureauet ApS",
+  "to_phoneno": "123456789",
+  "channel_0_speaker": "Torben Rudgaard",
+  "channel_1_speaker": "Carsten Düring"
+}

@@ -207,9 +207,9 @@ async function getUserByIdFromMSSQL(user_id) {
   // TODO: Replace with real MSSQL query
   return {
     id: user_id,
-    name: "Sales User",
-    company: "24Sales",
-    phone: CALLER_ID,
+    name: "Torben Rudgaard",
+    company: "E-Bureauet Philippines",
+    phone: "+639223758679",
   };
 }
 
@@ -217,9 +217,9 @@ async function getCustomerByIdFromMSSQL(customer_id) {
   // TODO: Replace with real MSSQL query
   return {
     id: customer_id,
-    name: "Customer Name",
-    company: "Customer Company",
-    phone: "+4512345678",
+    name: "Carsten Dúring",
+    company: "E-Bureauet ApS Denmark",
+    phone: "+4526717685",
   };
 }
 

@@ -57,7 +57,54 @@
         margin-top: 8px;
       }
     </style>
-  </head>
+  <style>
+/* CHAT_STYLES */
+
+/* Keep transcript area readable and not stretched across the whole screen */
+.chat {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+  max-width: 1100px;
+}
+
+/* One row: [badge][bubble] always left aligned */
+.msg {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+/* Pills */
+.badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+/* Colors like your Image 1 */
+.badge-caller { background: #ffd6d6; color: #7a1c1c; }
+.badge-receiver { background: #d8ffe6; color: #1f6b3a; }
+.badge-other { background: #f1f1f1; color: #333; }
+
+/* Bubble next to badge */
+.bubble {
+  background: #f3f3f3;
+  border-radius: 14px;
+  padding: 10px 14px;
+  line-height: 1.35;
+  flex: 1 1 auto;
+  max-width: 900px;
+}
+
+/* Optional: slightly soften */
+.bubble { box-shadow: 0 0 0 0 rgba(0,0,0,0); }
+</style>
+</head>
   <body>
     <div class="header">
       <h1>Phone call between Carsten Düring (E-Bureauet ApS) and Torben Rudgaard (BR - Børns Ragelse)</h1>
@@ -95,8 +142,14 @@ Referat: Carsten Düring forsøgte at kontakte Torben Rudgaard, men nåede kun t
         <div class="section-title">Fuld transskription</div>
         <button class="copy-btn" onclick="copyText('transcriptText')">Copy</button>
       </div>
-      <pre id="transcriptText">Carsten: Velkommen til voicemail. Carsten Düring. Tag ikke imod svaret dit kald. Indtal din besked efter tonen. 
-Torben: Ah for fanden, så får jeg din voicemail. Nå, ja det kan man bare se.</pre>
+      <pre id="transcriptText"><div class="msg">
+  <div class="badge badge-other">Carsten</div>
+  <div class="bubble">Velkommen til voicemail. Carsten Düring. Tag ikke imod svaret dit kald. Indtal din besked efter tonen.</div>
+</div>
+<div class="msg">
+  <div class="badge badge-other">Torben</div>
+  <div class="bubble">Ah for fanden, så får jeg din voicemail. Nå, ja det kan man bare se.</div>
+</div></pre>
       <div class="note">Tip: Hvis der er navne der skal staves korrekt, udvid prompt-listen i transcribe-scriptet.</div>
     </div>
 

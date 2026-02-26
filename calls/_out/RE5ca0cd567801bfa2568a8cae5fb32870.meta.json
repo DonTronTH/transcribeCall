@@ -1,11 +1,15 @@
 {
+  "from_name_id": "????????",
   "from_name": "Carsten Düring",
+  "from_company_id": "????????",
   "from_company": "E-Bureauet ApS",
+  "from_phoneno": "123456789",
+  "to_name_id": "????????",
   "to_name": "Torben Rudgaard",
+  "to_company_id": "????????",
   "to_company": "BR - Børns Ragelse",
-  "call_datetime": "2026-02-12 15:32",
-  "call_minutes": 14,
-  "call_file": "https://www.twilio.com/console/voice/api/recordings/recording-logs/RE5ca0cd567801bfa2568a8cae5fb32870/download/wav?__override_layout__=embed&bifrost=true&x-target-region=us1",
-  "channel_0_speaker": "Carsten Düring",
-  "channel_1_speaker": "Torben Rudgaard"
+  "to_phoneno": "123456789",
+  "call_datetime": "2026-02-12 15:32:05",
+  "call_minutes": "00:14:58",
+  "call_file": "https://www.twilio.com/console/voice/api/recordings/recording-logs/RE5ca0cd567801bfa2568a8cae5fb32870/download/wav?__override_layout__=embed&bifrost=true&x-target-region=us1"
 }

@@ -5,31 +5,53 @@ const { execSync } = require("child_process");
 const OpenAI = require("openai");
 
 // Hardcoded call metadata (used for prompts + written to meta.json)
+//
+// IMPORTANT:
+// - We use CALLER/RECEIVER as the only source of truth.
+// - We map audio channels to roles so we don't repeat names in multiple places.
+// - We still write legacy from_/to_ fields into meta.json for generateHtml.js compatibility.
 const callMeta = {
-  from_name: "Carsten Düring",
-  from_company: "E-Bureauet ApS",
-  to_name: "Torben Rudgaard",
-  to_company: "BR - Børns Ragelse",
-  call_datetime: "2026-02-12 15:32",
-  call_minutes: 14,
+  caller: {
+    name_id: "????????",
+    name: "Torben Rudgaard",
+    company_id: "????????",
+    company: "E-Bureauet Philippines",
+    phoneno: "123456789",
+  },
 
-  // This can be:
-  // - local file path (mp3/m4a)
-  // - Twilio console URL (we extract RE... and build API URL)
-  // - Twilio API recording media URL
-  // call_file:
-  //   "https://www.twilio.com/console/voice/api/recordings/recording-logs/REd7df8588ca9eafad049efdfe1b5d15ec/download/mp3?__override_layout__=embed&bifrost=true&x-target-region=us1",
-
-  call_file:
-    "https://www.twilio.com/console/voice/api/recordings/recording-logs/RE5ca0cd567801bfa2568a8cae5fb32870/download/wav?__override_layout__=embed&bifrost=true&x-target-region=us1",
+  receiver: {
+    name_id: "????????",
+    name: "Carsten Düring",
+    company_id: "????????",
+    company: "E-Bureauet ApS",
+    phoneno: "123456789",
+  },
 
   // Channel mapping for dual-channel recordings:
-  // channel_0_speaker is LEFT (FFmpeg map_channel 0.0.0)
-  // channel_1_speaker is RIGHT (FFmpeg map_channel 0.0.1)
-  // If these are swapped, just swap the names here.
-  channel_0_speaker: "Carsten Düring",
-  channel_1_speaker: "Torben Rudgaard",
+  // channel_0_role is LEFT  (FFmpeg pan=mono|c0=FL)
+  // channel_1_role is RIGHT (FFmpeg pan=mono|c0=FR)
+  //
+  // If the referat is swapping people, you DO NOT change caller/receiver.
+  // You only flip these two roles.
+  channel_0_role: "caller", // "caller" or "receiver"
+  channel_1_role: "receiver", // "caller" or "receiver"
+
+  call_datetime: "2026-02-12 15:32:05",
+  call_minutes: "00:14:58",
+
+  call_file:
+    "https://www.twilio.com/console/voice/api/recordings/recording-logs/RE7504da6e1e6c480bd9bdc2ba06326f2b/download/wav?__override_layout__=embed&bifrost=true&x-target-region=us1",
 };
+
+// This can be:
+// - local file path (mp3/m4a/wav)
+// - Twilio console URL (we extract RE... and build API URL)
+// - Twilio API recording media URL
+// call_file:
+//   "https://www.twilio.com/console/voice/api/recordings/recording-logs/REd7df8588ca9eafad049efdfe1b5d15ec/download/mp3?__override_layout__=embed&bifrost=true&x-target-region=us1",
+//
+// call_file:
+//   "https://www.twilio.com/console/voice/api/recordings/recording-logs/RE5ca0cd567801bfa2568a8cae5fb32870/download/wav?__override_layout__=embed&bifrost=true&x-target-region=us1",
 
 function extractRecordingSidFromAnyUrl(s) {
   const m = String(s || "").match(/\/(RE[a-zA-Z0-9]{10,})\b/);
@@ -368,6 +390,44 @@ function mergeByStartTime(segmentsA, speakerA, segmentsB, speakerB) {
   return lines.join("\n");
 }
 
+function roleToPerson(meta, role) {
+  const r = String(role || "").toLowerCase();
+  if (r === "caller") return meta.caller || null;
+  if (r === "receiver") return meta.receiver || null;
+  return null;
+}
+
+function buildLegacyMeta(meta) {
+  const caller = meta.caller || {};
+  const receiver = meta.receiver || {};
+  const p0 = roleToPerson(meta, meta.channel_0_role) || {};
+  const p1 = roleToPerson(meta, meta.channel_1_role) || {};
+
+  // We keep both:
+  // - new caller/receiver structure
+  // - legacy from_/to_ + channel_*_speaker fields for compatibility/clarity
+  return {
+    ...meta,
+
+    // Legacy naming (generateHtml.js expects these keys today)
+    from_name_id: caller.name_id,
+    from_name: caller.name,
+    from_company_id: caller.company_id,
+    from_company: caller.company,
+    from_phoneno: caller.phoneno,
+
+    to_name_id: receiver.name_id,
+    to_name: receiver.name,
+    to_company_id: receiver.company_id,
+    to_company: receiver.company,
+    to_phoneno: receiver.phoneno,
+
+    // Explicit speaker labels derived from roles
+    channel_0_speaker: p0.name,
+    channel_1_speaker: p1.name,
+  };
+}
+
 async function main() {
   const projectRoot = "C:\\git\\transcribeCall";
   const callsDir = path.join(projectRoot, "calls");
@@ -404,8 +464,8 @@ async function main() {
   const metaPath = path.join(outDir, `${baseName}.meta.json`);
 
   const metaLine =
-    `Opkald meta: Fra ${callMeta.from_name} (${callMeta.from_company}) ` +
-    `til ${callMeta.to_name} (${callMeta.to_company}). ` +
+    `Opkald meta: ${callMeta.caller.name} (${callMeta.caller.company}) ` +
+    `ringede til ${callMeta.receiver.name} (${callMeta.receiver.company}). ` +
     `Tid: ${callMeta.call_datetime}. ` +
     `Varighed: ${callMeta.call_minutes} minutter.`;
 
@@ -460,8 +520,14 @@ async function main() {
         process.exit(1);
       }
 
-      const speaker0 = callMeta.channel_0_speaker || "Speaker 1";
-      const speaker1 = callMeta.channel_1_speaker || "Speaker 2";
+      const role0 = callMeta.channel_0_role || "caller";
+      const role1 = callMeta.channel_1_role || "receiver";
+
+      const person0 = roleToPerson(callMeta, role0);
+      const person1 = roleToPerson(callMeta, role1);
+
+      const speaker0 = (person0 && person0.name) || "Speaker 1";
+      const speaker1 = (person1 && person1.name) || "Speaker 2";
 
       transcriptText = mergeByStartTime(seg0, speaker0, seg1, speaker1);
     } else {
@@ -479,7 +545,8 @@ async function main() {
         process.exit(1);
       }
 
-      const speaker = callMeta.to_name || "Speaker";
+      // In mono/mixed recordings, don't pretend we know who is who.
+      const speaker = "Samtale";
       const lines = [];
       for (const s of seg) {
         const chunks = String(s.text || "")
@@ -498,9 +565,10 @@ async function main() {
     console.log("Saved transcript:", transcriptPath);
 
     // Write meta.json (for generateHtml.js)
+    const metaToWrite = buildLegacyMeta(callMeta);
     fs.writeFileSync(
       metaPath,
-      JSON.stringify(callMeta, null, 2) + "\n",
+      JSON.stringify(metaToWrite, null, 2) + "\n",
       "utf8",
     );
     console.log("Saved meta:", metaPath);
@@ -515,7 +583,8 @@ async function main() {
           content:
             "Du skriver korte, faktuelle referater på dansk. Maks 10 linjer. " +
             "Fokus: hvad de talte om, behov, indvendinger, beslutninger, næste skridt. " +
-            "Brug call-meta konsekvent og korrekt.",
+            "Brug call-meta konsekvent og korrekt. " +
+            "CALLER ringede til RECEIVER.",
         },
         {
           role: "user",
@@ -543,7 +612,8 @@ async function main() {
           content:
             "Du er en streng, praktisk salgstræner på dansk. " +
             "Giv præcis 5 konkrete forbedringer. " +
-            "Kort og handlingsorienteret. Brug call-meta korrekt.",
+            "Kort og handlingsorienteret. Brug call-meta korrekt. " +
+            "CALLER ringede til RECEIVER.",
         },
         {
           role: "user",
