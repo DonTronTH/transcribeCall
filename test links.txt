@@ -1,0 +1,21 @@
+number:
+
+CVR 10294673 (lots of contacts, several with phone/mobile)
+
+CVR 20729546 (multiple rows with (+45) 70 20 25 10)
+
+CVR 29197237 (multiple rows with (+45) 35 13 49 89 / mobile)
+
+Using your user id = 13835, here are 3 concrete test links (each picks a contact that has a phone/mobile in your output):
+
+Lead 10294673 → ContactPerson 16305 (has phone (+45) 21 25 44 15)
+/api/dialer/session?user_id=13835&lead_id=10294673&contact_id=16305
+
+Lead 20729546 → ContactPerson 53659 (has phone/mobile shown (+45) 70 20 25 10)
+/api/dialer/session?user_id=13835&lead_id=20729546&contact_id=53659
+
+Lead 29197237 → ContactPerson 108349 (has phone (+45) 35 13 49 89)
+/api/dialer/session?user_id=13835&lead_id=29197237&contact_id=108349
+
+https://chalazal-kylan-martially.ngrok-free.dev/dialer.html?
+
