@@ -1,565 +1,795 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>24Sales Dialer</title>
 
-    <script src="dist/twilio.min.js"></script>
+    <script src="/dist/twilio.min.js"></script>
 
     <style>
-        :root {
-            --bg: #0f1115;
-            --card: #1a1f27;
-            --card2: #141922;
-            --text: #e8edf5;
-            --muted: #9aa6b2;
-            --line: rgba(255, 255, 255, 0.07);
-            --ok: #1e7f4f;
-            --warn: #b7791f;
-            --info: #2b6cb0;
-            --bad: #b83232;
-            --btn: #2a3340;
-        }
+      :root {
+        --bg: #0f1115;
+        --card: #1a1f27;
+        --card2: #141922;
+        --text: #e8edf5;
+        --muted: #9aa6b2;
+        --line: rgba(255, 255, 255, 0.07);
+        --ok: #1e7f4f;
+        --warn: #b7791f;
+        --info: #2b6cb0;
+        --bad: #b83232;
+        --btn: #2a3340;
+      }
 
-        * {
-            box-sizing: border-box;
-        }
+      * {
+        box-sizing: border-box;
+      }
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: radial-gradient(1200px 900px at 30% 20%, #1b2330 0%, var(--bg) 45%, #0b0d11 100%);
-            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-            color: var(--text);
-        }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(
+          1200px 900px at 30% 20%,
+          #1b2330 0%,
+          var(--bg) 45%,
+          #0b0d11 100%
+        );
+        font-family:
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Arial,
+          sans-serif;
+        color: var(--text);
+      }
 
-        .shell {
-            width: 420px;
-            max-width: calc(100vw - 24px);
-            border-radius: 18px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
-            padding: 12px;
-        }
+      .shell {
+        width: 420px;
+        max-width: calc(100vw - 24px);
+        border-radius: 18px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.06),
+          rgba(255, 255, 255, 0.03)
+        );
+        padding: 12px;
+      }
 
-        .card {
-            border-radius: 16px;
-            background: linear-gradient(180deg, rgba(26, 31, 39, 0.95), rgba(20, 25, 34, 0.95));
-            border: 1px solid var(--line);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-            overflow: hidden;
-        }
+      .card {
+        border-radius: 16px;
+        background: linear-gradient(
+          180deg,
+          rgba(26, 31, 39, 0.95),
+          rgba(20, 25, 34, 0.95)
+        );
+        border: 1px solid var(--line);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+        overflow: hidden;
+      }
 
-        .topbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--line);
-            background: rgba(0, 0, 0, 0.15);
-        }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(0, 0, 0, 0.15);
+      }
 
-        .brand {
-            font-weight: 700;
-            letter-spacing: 0.2px;
-        }
+      .brand {
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
 
-        .badge {
-            font-size: 12px;
-            padding: 6px 10px;
-            border-radius: 999px;
-            border: 1px solid var(--line);
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--muted);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
+      .badge {
+        font-size: 12px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--muted);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
 
-        .badgeDot {
-            width: 8px;
-            height: 8px;
-            border-radius: 999px;
-            background: var(--muted);
-            display: inline-block;
-        }
+      .badgeDot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--muted);
+        display: inline-block;
+      }
 
-        .content {
-            padding: 16px;
-            display: grid;
-            gap: 14px;
-        }
+      .content {
+        padding: 16px;
+        display: grid;
+        gap: 14px;
+      }
 
-        .panel {
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--line);
-            padding: 12px 12px;
-        }
+      .panel {
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--line);
+        padding: 12px 12px;
+      }
 
-        .label {
-            font-size: 11px;
-            letter-spacing: 0.12em;
-            color: var(--muted);
-            margin-bottom: 8px;
-        }
+      .label {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
 
-        .row {
-            display: grid;
-            grid-template-columns: 22px 1fr;
-            gap: 10px;
-            align-items: start;
-            margin-bottom: 10px;
-        }
+      .row {
+        display: grid;
+        grid-template-columns: 22px 1fr;
+        gap: 10px;
+        align-items: start;
+        margin-bottom: 10px;
+      }
 
-        .row:last-child {
-            margin-bottom: 0;
-        }
+      .row:last-child {
+        margin-bottom: 0;
+      }
 
-        .ico {
-            width: 22px;
-            height: 22px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--line);
-            color: var(--muted);
-            font-size: 12px;
-            user-select: none;
-        }
+      .ico {
+        width: 22px;
+        height: 22px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 12px;
+        user-select: none;
+      }
 
-        .name {
-            font-size: 15px;
-            font-weight: 650;
-            line-height: 1.15;
-        }
+      .name {
+        font-size: 15px;
+        font-weight: 650;
+        line-height: 1.15;
+      }
 
-        .sub {
-            font-size: 13px;
-            color: var(--muted);
-            margin-top: 2px;
-            line-height: 1.25;
-        }
+      .sub {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 2px;
+        line-height: 1.25;
+      }
 
-        .numberBox {
-            border-radius: 14px;
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px solid var(--line);
-            padding: 14px 12px;
-            text-align: center;
-        }
+      .numberBox {
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px solid var(--line);
+        padding: 14px 12px;
+        text-align: center;
+      }
 
-        .number {
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            font-variant-numeric: tabular-nums;
-        }
+      .number {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        font-variant-numeric: tabular-nums;
+      }
 
-        .timer {
-            margin-top: 8px;
-            font-size: 13px;
-            color: var(--muted);
-            font-variant-numeric: tabular-nums;
-        }
+      .timer {
+        margin-top: 8px;
+        font-size: 13px;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
 
-        .toggleRow {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+      .toggleRow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
-        .switch {
-            position: relative;
-            width: 44px;
-            height: 24px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.10);
-            border: 1px solid var(--line);
-            cursor: pointer;
-            flex: 0 0 auto;
-        }
+      .switch {
+        position: relative;
+        width: 44px;
+        height: 24px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--line);
+        cursor: pointer;
+        flex: 0 0 auto;
+      }
 
-        .knob {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 20px;
-            height: 20px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.55);
-            transition: transform 140ms ease;
-        }
+      .knob {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 20px;
+        height: 20px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.55);
+        transition: transform 140ms ease;
+      }
 
-        .switch.on {
-            background: rgba(30, 127, 79, 0.35);
-            border-color: rgba(30, 127, 79, 0.55);
-        }
+      .switch.on {
+        background: rgba(30, 127, 79, 0.35);
+        border-color: rgba(30, 127, 79, 0.55);
+      }
 
-        .switch.on .knob {
-            transform: translateX(20px);
-            background: rgba(255, 255, 255, 0.85);
-        }
+      .switch.on .knob {
+        transform: translateX(20px);
+        background: rgba(255, 255, 255, 0.85);
+      }
 
-        .notes {
-            width: 100%;
-            min-height: 86px;
-            resize: vertical;
-            border-radius: 12px;
-            border: 1px solid var(--line);
-            background: rgba(0, 0, 0, 0.25);
-            color: var(--text);
-            padding: 10px 10px;
-            outline: none;
-            font-size: 13px;
-            line-height: 1.35;
-        }
+      .notes {
+        width: 100%;
+        min-height: 86px;
+        resize: vertical;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: rgba(0, 0, 0, 0.25);
+        color: var(--text);
+        padding: 10px 10px;
+        outline: none;
+        font-size: 13px;
+        line-height: 1.35;
+      }
 
-        .notes::placeholder {
-            color: rgba(154, 166, 178, 0.7);
-        }
+      .notes::placeholder {
+        color: rgba(154, 166, 178, 0.7);
+      }
 
-        .actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
 
-        .btn {
-            border-radius: 14px;
-            border: 1px solid var(--line);
-            background: var(--btn);
-            color: var(--text);
-            font-weight: 650;
-            padding: 14px 12px;
-            cursor: pointer;
-            transition: transform 60ms ease, opacity 120ms ease;
-            user-select: none;
-        }
+      .btn {
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: var(--btn);
+        color: var(--text);
+        font-weight: 650;
+        padding: 14px 12px;
+        cursor: pointer;
+        transition:
+          transform 60ms ease,
+          opacity 120ms ease;
+        user-select: none;
+      }
 
-        .btn:active {
-            transform: scale(0.99);
-        }
+      .btn:active {
+        transform: scale(0.99);
+      }
 
-        .btn[disabled] {
-            opacity: 0.45;
-            cursor: not-allowed;
-        }
+      .btn[disabled] {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
 
-        .btnCall {
-            background: rgba(30, 127, 79, 0.65);
-            border-color: rgba(30, 127, 79, 0.7);
-        }
+      .btnCall {
+        background: rgba(30, 127, 79, 0.65);
+        border-color: rgba(30, 127, 79, 0.7);
+      }
 
-        .btnHang {
-            background: rgba(184, 50, 50, 0.55);
-            border-color: rgba(184, 50, 50, 0.7);
-        }
+      .btnHang {
+        background: rgba(184, 50, 50, 0.55);
+        border-color: rgba(184, 50, 50, 0.7);
+      }
 
-        .footStatus {
-            font-size: 12px;
-            color: var(--muted);
-            text-align: center;
-            min-height: 16px;
-        }
+      .footStatus {
+        font-size: 12px;
+        color: var(--muted);
+        text-align: center;
+        min-height: 16px;
+      }
+
+      /* --- Manual dial UI (added) --- */
+      .manualLink {
+        margin-top: 10px;
+        font-size: 12px;
+        color: var(--muted);
+        text-decoration: underline;
+        cursor: pointer;
+        user-select: none;
+        display: inline-block;
+      }
+
+      .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        z-index: 9999;
+      }
+
+      .overlay.show {
+        display: flex;
+      }
+
+      .modal {
+        width: 360px;
+        max-width: calc(100vw - 24px);
+        border-radius: 16px;
+        background: linear-gradient(
+          180deg,
+          rgba(26, 31, 39, 0.98),
+          rgba(20, 25, 34, 0.98)
+        );
+        border: 1px solid var(--line);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+        padding: 14px;
+      }
+
+      .modalTitle {
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .field {
+        width: 100%;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: rgba(0, 0, 0, 0.25);
+        color: var(--text);
+        padding: 10px 10px;
+        outline: none;
+        font-size: 14px;
+      }
+
+      .modalActions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      /* --- /Manual dial UI --- */
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="shell">
-        <div class="card">
-            <div class="topbar">
-                <div class="brand">24Sales Dialer</div>
-                <div class="badge" id="statusBadge">
-                    <span class="badgeDot" id="badgeDot"></span>
-                    <span id="statusText">LOADING</span>
-                </div>
-            </div>
-
-            <div class="content">
-                <div class="panel">
-                    <div class="label">FROM</div>
-                    <div class="row">
-                        <div class="ico">P</div>
-                        <div>
-                            <div class="name" id="fromName">-</div>
-                            <div class="sub" id="fromCompany">-</div>
-                        </div>
-                    </div>
-
-                    <div class="label" style="margin-top: 12px;">TO</div>
-                    <div class="row">
-                        <div class="ico">P</div>
-                        <div>
-                            <div class="name" id="toName">-</div>
-                            <div class="sub" id="toCompany">-</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="numberBox">
-                    <div class="number" id="toPhone">-</div>
-                    <div class="timer" id="timerText">00:00</div>
-                </div>
-
-                <div class="panel">
-                    <div class="toggleRow">
-                        <div class="switch on" id="recordSwitch" role="switch" aria-checked="true">
-                            <div class="knob"></div>
-                        </div>
-                        <div style="display:flex; flex-direction:column;">
-                            <div style="font-size: 13px; font-weight: 650;">Record call</div>
-                            <div style="font-size: 12px; color: var(--muted);">Saves recording link to 24Sales</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel">
-                    <div class="label">CALL NOTES</div>
-                    <textarea class="notes" id="callNotes" placeholder="Jot down important details..."></textarea>
-                </div>
-
-                <div class="actions">
-                    <button class="btn btnCall" id="btnCall">Call</button>
-                    <button class="btn btnHang" id="btnHang" disabled>Hang Up</button>
-                </div>
-
-                <div class="footStatus" id="footStatus"></div>
-            </div>
+      <div class="card">
+        <div class="topbar">
+          <div class="brand">24Sales Dialer</div>
+          <div class="badge" id="statusBadge">
+            <span class="badgeDot" id="badgeDot"></span>
+            <span id="statusText">LOADING</span>
+          </div>
         </div>
+
+        <div class="content">
+          <div class="panel">
+            <div class="label">FROM</div>
+            <div class="row">
+              <div class="ico">P</div>
+              <div>
+                <div class="name" id="fromName">-</div>
+                <div class="sub" id="fromCompany">-</div>
+              </div>
+            </div>
+
+            <div class="label" style="margin-top: 12px">TO</div>
+            <div class="row">
+              <div class="ico">P</div>
+              <div>
+                <div class="name" id="toName">-</div>
+                <div class="sub" id="toCompany">-</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="numberBox">
+            <div class="number" id="toPhone">-</div>
+            <div class="timer" id="timerText">00:00</div>
+
+            <!-- Manual dial link (added) -->
+            <div class="manualLink" id="manualDialLink">Dial manually</div>
+          </div>
+
+          <div class="panel">
+            <div class="toggleRow">
+              <div
+                class="switch on"
+                id="recordSwitch"
+                role="switch"
+                aria-checked="true"
+              >
+                <div class="knob"></div>
+              </div>
+              <div style="display: flex; flex-direction: column">
+                <div style="font-size: 13px; font-weight: 650">Record call</div>
+                <div style="font-size: 12px; color: var(--muted)">
+                  Saves recording link to 24Sales
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="label">CALL NOTES</div>
+            <textarea
+              class="notes"
+              id="callNotes"
+              placeholder="Jot down important details..."
+            ></textarea>
+          </div>
+
+          <div class="actions">
+            <button class="btn btnCall" id="btnCall">Call</button>
+            <button class="btn btnHang" id="btnHang" disabled>Hang Up</button>
+          </div>
+
+          <div class="footStatus" id="footStatus"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manual dial overlay (added) -->
+    <div class="overlay" id="manualOverlay" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true">
+        <div class="modalTitle">Enter phone number</div>
+        <input
+          class="field"
+          id="manualPhoneInput"
+          placeholder="+1 555 123 4567"
+          autocomplete="off"
+        />
+        <div class="modalActions">
+          <button class="btn" id="manualCancelBtn" type="button">Cancel</button>
+          <button class="btn btnCall" id="manualOkBtn" type="button">OK</button>
+        </div>
+      </div>
     </div>
 
     <script>
-        const fromNameEl = document.getElementById('fromName');
-        const fromCompanyEl = document.getElementById('fromCompany');
-        const toNameEl = document.getElementById('toName');
-        const toCompanyEl = document.getElementById('toCompany');
-        const toPhoneEl = document.getElementById('toPhone');
+      const fromNameEl = document.getElementById("fromName");
+      const fromCompanyEl = document.getElementById("fromCompany");
+      const toNameEl = document.getElementById("toName");
+      const toCompanyEl = document.getElementById("toCompany");
+      const toPhoneEl = document.getElementById("toPhone");
 
-        const statusTextEl = document.getElementById('statusText');
-        const badgeDotEl = document.getElementById('badgeDot');
-        const footStatusEl = document.getElementById('footStatus');
+      const statusTextEl = document.getElementById("statusText");
+      const badgeDotEl = document.getElementById("badgeDot");
+      const footStatusEl = document.getElementById("footStatus");
 
-        const recordSwitchEl = document.getElementById('recordSwitch');
-        const notesEl = document.getElementById('callNotes');
+      const recordSwitchEl = document.getElementById("recordSwitch");
+      const notesEl = document.getElementById("callNotes");
 
-        const btnCallEl = document.getElementById('btnCall');
-        const btnHangEl = document.getElementById('btnHang');
+      const btnCallEl = document.getElementById("btnCall");
+      const btnHangEl = document.getElementById("btnHang");
 
-        const timerTextEl = document.getElementById('timerText');
+      const timerTextEl = document.getElementById("timerText");
 
-        let device = null;
-        let activeCall = null;
+      // Manual dial elements (added)
+      const manualDialLinkEl = document.getElementById("manualDialLink");
+      const manualOverlayEl = document.getElementById("manualOverlay");
+      const manualPhoneInputEl = document.getElementById("manualPhoneInput");
+      const manualOkBtnEl = document.getElementById("manualOkBtn");
+      const manualCancelBtnEl = document.getElementById("manualCancelBtn");
 
-        let sessionId = null;
-        let sessionData = null;
+      let device = null;
+      let activeCall = null;
 
-        let timerInterval = null;
-        let callAcceptedAtMs = null;
+      // These come from the URL (used by your local backend to resolve SQL data)
+      let userId = null;
+      let leadId = null;
+      let contactId = null;
 
-        function setStatus(state, subText) {
-            statusTextEl.textContent = state;
+      let sessionData = null;
 
-            if (subText) {
-                footStatusEl.textContent = subText;
-            }
+      let timerInterval = null;
+      let callAcceptedAtMs = null;
 
-            let dot = '#9aa6b2';
-            if (state === 'READY') dot = '#9aa6b2';
-            if (state === 'DIALING') dot = '#2b6cb0';
-            if (state === 'RINGING') dot = '#b7791f';
-            if (state === 'IN CALL') dot = '#1e7f4f';
-            if (state === 'COMPLETED') dot = '#9aa6b2';
-            if (state === 'FAILED') dot = '#b83232';
+      // Manual dial override (added)
+      let manualToOverride = null;
 
-            badgeDotEl.style.background = dot;
+      function setStatus(state, subText) {
+        statusTextEl.textContent = state;
+
+        if (subText) {
+          footStatusEl.textContent = subText;
         }
 
-        function formatMMSS(totalSeconds) {
-            const m = Math.floor(totalSeconds / 60);
-            const s = totalSeconds % 60;
-            const mm = String(m).padStart(2, '0');
-            const ss = String(s).padStart(2, '0');
-            return `${mm}:${ss}`;
+        let dot = "#9aa6b2";
+        if (state === "READY") dot = "#9aa6b2";
+        if (state === "DIALING") dot = "#2b6cb0";
+        if (state === "RINGING") dot = "#b7791f";
+        if (state === "IN CALL") dot = "#1e7f4f";
+        if (state === "COMPLETED") dot = "#9aa6b2";
+        if (state === "FAILED") dot = "#b83232";
+
+        badgeDotEl.style.background = dot;
+      }
+
+      function formatMMSS(totalSeconds) {
+        const m = Math.floor(totalSeconds / 60);
+        const s = totalSeconds % 60;
+        const mm = String(m).padStart(2, "0");
+        const ss = String(s).padStart(2, "0");
+        return `${mm}:${ss}`;
+      }
+
+      function startTimer() {
+        stopTimer();
+        callAcceptedAtMs = Date.now();
+        timerTextEl.textContent = "00:00";
+        timerInterval = setInterval(() => {
+          const diffSec = Math.floor((Date.now() - callAcceptedAtMs) / 1000);
+          timerTextEl.textContent = formatMMSS(diffSec);
+        }, 250);
+      }
+
+      function stopTimer() {
+        if (timerInterval) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+        }
+        callAcceptedAtMs = null;
+      }
+
+      function getQueryParam(name) {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(name);
+      }
+
+      function isRecordOn() {
+        return recordSwitchEl.classList.contains("on");
+      }
+
+      recordSwitchEl.addEventListener("click", () => {
+        if (recordSwitchEl.classList.contains("on")) {
+          recordSwitchEl.classList.remove("on");
+          recordSwitchEl.setAttribute("aria-checked", "false");
+        } else {
+          recordSwitchEl.classList.add("on");
+          recordSwitchEl.setAttribute("aria-checked", "true");
+        }
+      });
+
+      // Manual dial helpers (added)
+      function openManualDial() {
+        if (btnHangEl && !btnHangEl.disabled) {
+          // In-call: don't allow changing number mid-call
+          return;
         }
 
-        function startTimer() {
-            stopTimer();
-            callAcceptedAtMs = Date.now();
-            timerTextEl.textContent = '00:00';
-            timerInterval = setInterval(() => {
-                const diffSec = Math.floor((Date.now() - callAcceptedAtMs) / 1000);
-                timerTextEl.textContent = formatMMSS(diffSec);
-            }, 250);
+        manualPhoneInputEl.value =
+          manualToOverride || sessionData?.to_phoneno || "";
+        manualOverlayEl.classList.add("show");
+        manualOverlayEl.setAttribute("aria-hidden", "false");
+        setTimeout(() => manualPhoneInputEl.focus(), 0);
+      }
+
+      function closeManualDial() {
+        manualOverlayEl.classList.remove("show");
+        manualOverlayEl.setAttribute("aria-hidden", "true");
+      }
+
+      function sanitizeDialNumber(raw) {
+        if (!raw) return "";
+        // Keep digits, +, *, #. Strip spaces/dashes/etc.
+        return String(raw)
+          .trim()
+          .replace(/[^\d+\*\#]/g, "");
+      }
+
+      manualDialLinkEl.addEventListener("click", openManualDial);
+
+      manualCancelBtnEl.addEventListener("click", () => {
+        closeManualDial();
+      });
+
+      manualOkBtnEl.addEventListener("click", () => {
+        const cleaned = sanitizeDialNumber(manualPhoneInputEl.value);
+        if (!cleaned) {
+          setStatus("FAILED", "Enter a phone number");
+          return;
         }
 
-        function stopTimer() {
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
-            callAcceptedAtMs = null;
+        manualToOverride = cleaned;
+        toPhoneEl.textContent = cleaned; // reflect override in UI
+        closeManualDial();
+        setStatus("READY", "Manual number set");
+      });
+
+      // Close on outside click / Esc (added)
+      manualOverlayEl.addEventListener("click", (e) => {
+        if (e.target === manualOverlayEl) closeManualDial();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && manualOverlayEl.classList.contains("show")) {
+          closeManualDial();
+        }
+        if (e.key === "Enter" && manualOverlayEl.classList.contains("show")) {
+          manualOkBtnEl.click();
+        }
+      });
+
+      async function loadSession() {
+        // URL contract:
+        // dialog.html?user_id=13834&lead_id=XXX&contact_id=YYY
+        //
+        // LIVE: backend must authenticate using real token/cookie and ignore/validate user_id appropriately.
+        // DEV (localhost): backend can allow user_id-based testing when NODE_ENV=development.
+        userId = getQueryParam("user_id");
+        leadId = getQueryParam("lead_id");
+        contactId = getQueryParam("contact_id");
+
+        if (!userId || !leadId || !contactId) {
+          setStatus("FAILED", "Missing user_id / lead_id / contact_id in URL");
+          btnCallEl.disabled = true;
+          return;
         }
 
-        function getQueryParam(name) {
-            const url = new URL(window.location.href);
-            return url.searchParams.get(name);
-        }
+        setStatus("LOADING", "Loading call session...");
 
-        function isRecordOn() {
-            return recordSwitchEl.classList.contains('on');
-        }
-
-        recordSwitchEl.addEventListener('click', () => {
-            if (recordSwitchEl.classList.contains('on')) {
-                recordSwitchEl.classList.remove('on');
-                recordSwitchEl.setAttribute('aria-checked', 'false');
-            } else {
-                recordSwitchEl.classList.add('on');
-                recordSwitchEl.setAttribute('aria-checked', 'true');
-            }
+        const qs = new URLSearchParams({
+          user_id: userId,
+          lead_id: leadId,
+          contact_id: contactId,
         });
 
-        async function loadSession() {
-            sessionId = getQueryParam('sid');
-            if (!sessionId) {
-                setStatus('FAILED', 'Missing sid in URL');
-                btnCallEl.disabled = true;
-                return;
-            }
+        // IMPORTANT: we do NOT create any session id here.
+        // Backend decides auth (LIVE) or dev-bypass (DEV) and returns the resolved data.
+        const resp = await fetch(`/api/dialer/session?${qs.toString()}`, {
+          credentials: "include",
+        });
 
-            setStatus('LOADING', 'Loading call session...');
-
-            const resp = await fetch(`/api/dialer/session/${encodeURIComponent(sessionId)}`);
-            if (!resp.ok) {
-                setStatus('FAILED', `Session load failed (${resp.status})`);
-                btnCallEl.disabled = true;
-                return;
-            }
-
-            sessionData = await resp.json();
-
-            fromNameEl.textContent = sessionData.from_name || '-';
-            fromCompanyEl.textContent = sessionData.from_company || '-';
-            toNameEl.textContent = sessionData.to_name || '-';
-            toCompanyEl.textContent = sessionData.to_company || '-';
-            toPhoneEl.textContent = sessionData.to_phoneno || '-';
-
-            setStatus('READY', '');
+        if (resp.status === 401 || resp.status === 403) {
+          setStatus("FAILED", "Not logged in / unauthorized");
+          btnCallEl.disabled = true;
+          return;
         }
 
-        async function initDevice() {
-            setStatus('LOADING', 'Initializing phone...');
-
-            const identity = (sessionData && sessionData.from_name_id)
-                ? `agent_${sessionData.from_name_id}`
-                : 'agent_unknown';
-
-            const resp = await fetch(`/api/token?identity=${encodeURIComponent(identity)}`);
-            if (!resp.ok) {
-                setStatus('FAILED', `Token fetch failed (${resp.status})`);
-                btnCallEl.disabled = true;
-                return;
-            }
-
-            const data = await resp.json();
-
-            device = new Twilio.Device(data.token, {
-                codecPreferences: ['opus', 'pcmu'],
-            });
-
-            device.on('ready', () => {
-                setStatus('READY', '');
-            });
-
-            device.on('error', (err) => {
-                console.error(err);
-                setStatus('FAILED', err.message || 'Device error');
-                btnCallEl.disabled = false;
-                btnHangEl.disabled = true;
-            });
+        if (!resp.ok) {
+          setStatus("FAILED", `Session load failed (${resp.status})`);
+          btnCallEl.disabled = true;
+          return;
         }
 
-        async function makeCall() {
-            if (!device || !sessionData) return;
+        sessionData = await resp.json();
 
-            const to = sessionData.to_phoneno;
-            if (!to) {
-                setStatus('FAILED', 'Missing to_phoneno in session');
-                return;
-            }
+        fromNameEl.textContent = sessionData.from_name || "-";
+        fromCompanyEl.textContent = sessionData.from_company || "-";
+        toNameEl.textContent = sessionData.to_name || "-";
+        toCompanyEl.textContent = sessionData.to_company || "-";
+        toPhoneEl.textContent = sessionData.to_phoneno || "-";
 
-            btnCallEl.disabled = true;
-            btnHangEl.disabled = false;
+        setStatus("READY", "");
+      }
 
-            setStatus('DIALING', '');
+      async function initDevice() {
+        setStatus("LOADING", "Initializing phone...");
 
-            const params = {
-                To: to,
-                ShouldRecord: isRecordOn() ? 'true' : 'false',
-                SessionId: sessionId,
-                Notes: notesEl.value || ''
-            };
+        // LIVE: token endpoint must validate auth on the server side.
+        // DEV: token endpoint can allow localhost bypass if you want (but still should not accept a client-provided identity).
+        const resp = await fetch(`/api/token`, { credentials: "include" });
 
-            try {
-                activeCall = await device.connect({ params });
-
-                activeCall.on('ringing', () => {
-                    setStatus('RINGING', '');
-                });
-
-                activeCall.on('accept', () => {
-                    setStatus('IN CALL', '');
-                    startTimer();
-                });
-
-                activeCall.on('disconnect', () => {
-                    stopTimer();
-                    setStatus('COMPLETED', 'Call ended. Saving to 24Sales...');
-                    btnCallEl.disabled = false;
-                    btnHangEl.disabled = true;
-
-                    // Optional: you can close automatically after a few seconds if you want.
-                    // setTimeout(() => window.close(), 2500);
-                });
-
-            } catch (err) {
-                console.error(err);
-                stopTimer();
-                setStatus('FAILED', err.message || 'Connect failed');
-                btnCallEl.disabled = false;
-                btnHangEl.disabled = true;
-            }
+        if (resp.status === 401 || resp.status === 403) {
+          setStatus("FAILED", "Not logged in / unauthorized");
+          btnCallEl.disabled = true;
+          return;
         }
 
-        function hangUp() {
-            if (!device) return;
-            device.disconnectAll();
+        if (!resp.ok) {
+          setStatus("FAILED", `Token fetch failed (${resp.status})`);
+          btnCallEl.disabled = true;
+          return;
         }
 
-        btnCallEl.addEventListener('click', makeCall);
-        btnHangEl.addEventListener('click', hangUp);
+        const data = await resp.json();
 
-        async function boot() {
-            try {
-                await loadSession();
-                if (!sessionData) return;
-                await initDevice();
-            } catch (err) {
-                console.error(err);
-                setStatus('FAILED', err.message || 'Boot failed');
-                btnCallEl.disabled = true;
-            }
+        device = new Twilio.Device(data.token, {
+          codecPreferences: ["opus", "pcmu"],
+        });
+
+        device.on("registered", () => {
+          setStatus("READY", "Phone ready for use...");
+        });
+
+        device.register();
+
+        device.on("error", (err) => {
+          console.error(err);
+          setStatus("FAILED", err.message || "Device error");
+          btnCallEl.disabled = false;
+          btnHangEl.disabled = true;
+        });
+      }
+
+      async function makeCall() {
+        if (!device || !sessionData) return;
+
+        // Use manual override if set (added)
+        const to = manualToOverride || sessionData.to_phoneno;
+
+        if (!to) {
+          setStatus("FAILED", "Missing to_phoneno in session");
+          return;
         }
 
-        boot();
+        btnCallEl.disabled = true;
+        btnHangEl.disabled = false;
+
+        setStatus("DIALING", "");
+
+        // IMPORTANT: no client-invented SessionId.
+        // If backend wants correlation, it should return something like sessionData.dialer_session_id.
+        const params = {
+          To: to,
+          ShouldRecord: isRecordOn() ? "true" : "false",
+          Notes: notesEl.value || "",
+          UserId: String(userId || ""),
+          LeadId: String(leadId || ""),
+          ContactId: String(contactId || ""),
+          DialerSessionId: sessionData.dialer_session_id
+            ? String(sessionData.dialer_session_id)
+            : "",
+          // ManualDial: manualToOverride ? "true" : "false", // optional flag if you want it server-side later
+        };
+
+        try {
+          activeCall = await device.connect({ params });
+
+          activeCall.on("ringing", () => {
+            setStatus("RINGING", "");
+          });
+
+          activeCall.on("accept", () => {
+            setStatus("IN CALL", "");
+            startTimer();
+          });
+
+          activeCall.on("disconnect", () => {
+            stopTimer();
+            setStatus("COMPLETED", "Call ended. Saving to 24Sales...");
+            btnCallEl.disabled = false;
+            btnHangEl.disabled = true;
+
+            // Optional: you can close automatically after a few seconds if you want.
+            // setTimeout(() => window.close(), 2500);
+          });
+        } catch (err) {
+          console.error(err);
+          stopTimer();
+          setStatus("FAILED", err.message || "Connect failed");
+          btnCallEl.disabled = false;
+          btnHangEl.disabled = true;
+        }
+      }
+
+      function hangUp() {
+        if (!device) return;
+        device.disconnectAll();
+      }
+
+      btnCallEl.addEventListener("click", makeCall);
+      btnHangEl.addEventListener("click", hangUp);
+
+      async function boot() {
+        try {
+          await loadSession();
+          if (!sessionData) return;
+          await initDevice();
+        } catch (err) {
+          console.error(err);
+          setStatus("FAILED", err.message || "Boot failed");
+          btnCallEl.disabled = true;
+        }
+      }
+
+      boot();
     </script>
-</body>
-
+  </body>
 </html>
